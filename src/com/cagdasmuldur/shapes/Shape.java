@@ -1,17 +1,21 @@
 package com.cagdasmuldur.shapes;
 
-public class Shape {
-	private String name;
-	private double xDimension;
-	private double yDimension;
-	private double zDimension;
+public abstract class Shape {
+	protected String name;
 	/** For each class, you must provide implementations for toString(),
 	 *  at least one constructor, setters/getters, and the documentations 
 	 *  for the entire class. */
-	public Shape(String nameParam, double xParam, double yParam, double zParam) {
-		name = nameParam;
-		xDimension = xParam;
-		yDimension = yParam;
-		zDimension = zParam;
+	public Shape(String name, double[] sides) {
+		this.name = name;
 	}
+	
+	  public String toString() {
+	    return "Shape: " + name ;
+	  }
+
+	  /** Abstract method getArea */
+	  public abstract double getArea();
+
+	  /** Abstract method getPerimeter */
+	  public abstract double getPerimeter();
 }
