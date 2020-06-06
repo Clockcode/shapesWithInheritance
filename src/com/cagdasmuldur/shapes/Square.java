@@ -8,7 +8,9 @@ public class Square extends Shape{
 		// TODO Auto-generated constructor stub
 	}
 	public String toString() {
-	    return "Shape: " + name + " Side: " + side;
+	    return "Shape: " + name +
+	    		" Side: " + side + 
+	    		" Perimeter: " + getPerimeter();
 	  }
 	public double getSide() {
 		return side;

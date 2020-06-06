@@ -10,19 +10,58 @@ import java.io.LineNumberReader;
 public class Main {
 	//Filename variable for safer and easier reading
 	private static final String fileName = "shapes.txt";
+
+	/** Main method reads the file catches FileNotFoundException
+	 *  splits each line until hasNextLine returns null 
+	 *  Catches a custom exception if any of the values
+	 *  on any line is not correct. Then decrements the
+	 *  counter by one to overwrite garbage value
+	 *  At last calls the printShapes method to print all shapes*/
+	public static void main(String[] args) {
+
+		Shape[] shapes = new Shape[43];
+		int i = 0;
+		try {
+		      File myObj = new File(fileName);
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		        String data = myReader.nextLine();
+		        String[] arrOfData = data.split(",");
+		        try {
+		        	shapes[i] = setShape(arrOfData);
+		        }catch(InvalidValueException|InvalidShapeException e) {
+		        	System.out.println(e.getMessage());
+		        	i--;
+		        }
+		        i++;
+		      }
+		      myReader.close();
+		}catch(FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~Array Of Shapes~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		printShapes(shapes);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("~~~Array Of Shapes Without The Least Perimetered Triangle~~~");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		printShapes(deleteMinTrianglePerimeter(shapes));
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	}
 	
-	//String array parser to double. 
-	//Named it doubleArrayParser because of the naming convention in double class
 	/** Gets String array and the side counter by the shapes' need.
-	 Returns a double array containing the "valid" array of sides */
-	/** Checks the each value and if its not valid ( <= 0 ) throws a custom exception*/
+	 * 	Returns a double array containing the "valid" array of sides 
+	 * 	Checks the each value and if its not valid ( <= 0 ) throws a custom exception
+	 * 	Named it doubleArrayParser because of the naming convention in double class */
 	public static double[] doubleArrayParser(String[] arrOfData, int sideCount) {
 		double[] arrOfSides = new double[sideCount];
 		try {
 			for(int i=0; i < sideCount; i++) {
-				arrOfSides[i] = Double.parseDouble(arrOfData[i]);
-				if(arrOfSides[i] <= 0) {
+				if(Double.parseDouble(arrOfData[i]) <= 0) {
 					throw new InvalidValueException();
+				}else {
+					arrOfSides[i] = Double.parseDouble(arrOfData[i]);					
 				}
 			}			
 		}catch(InvalidValueException e) {
@@ -30,24 +69,30 @@ public class Main {
 		}
 		return arrOfSides;
 	}
-	//Checks the 
+	/** Checks the validity of all sides if there is a 
+	 * 	valid value for each side returns true otherwise false */
 	public static boolean checkValues(String[] arrOfData, int sideCount) {
-		boolean isCorrect = true;
-		double[] arrOfSides = null;
+		boolean isCorrect = false;
+		double[] arrOfSides = new double[sideCount];
 		try {
 			arrOfSides = doubleArrayParser(arrOfData, sideCount);
+			for(double side : arrOfSides) {
+				if(side > 0) {
+					isCorrect = true;
+				}
+			}
 		}
 		catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
-			isCorrect = false;
 		}
-		if(arrOfSides.length < sideCount) {
-			isCorrect = false;
-		}
+		
 		return isCorrect;
 	}
-	
-	public static Shape setShape(String[] arrOfData) throws InvalidValueException {
+	/** Calls appropriate constructor by the first index of the array.
+	 * 	Returns a Shape object if there is no match for the shape name
+	 *  throws a custom exception 
+	 * @throws InvalidShapeException */
+	public static Shape setShape(String[] arrOfData) throws InvalidValueException, InvalidShapeException {
 		Shape shape = null;
 		String[] arrOfSides = Arrays.copyOfRange(arrOfData, 1, arrOfData.length);
 		switch(arrOfData[0]) {
@@ -84,37 +129,14 @@ public class Main {
 		default:
 			throw new InvalidValueException("Wrong Shape name!!");
 		}
+		if(shape == null) {
+			throw new InvalidShapeException();
+		}
 		return shape;
 	}
-	public static void main(String[] args) {
 
-		Shape[] shapes = new Shape[43];
-		int i = 0;
-		try {
-		      File myObj = new File(fileName);
-		      Scanner myReader = new Scanner(myObj);
-		      while (myReader.hasNextLine()) {
-		        String data = myReader.nextLine();
-		        String[] arrOfData = data.split(",");
-		        try {
-		        	shapes[i] = setShape(arrOfData);
-		        }catch(InvalidValueException e) {
-		        	System.out.println(e.getMessage());
-		        	i--;
-		        }
-		        i++;
-		      }
-		      myReader.close();
-		}catch(FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-		printShapes(shapes);
-	}
-
-//Your program must be capable of storing all the geometrical shapes 
-//read from the file in one data structure. 
-//Since arrays are the only data structure that we have covered so far,
-//you must use just one array to contain all the shapes in this assignment. 
+	/** Calls toString function for every Shape element inside the array 
+	 *  catches the ArrayIndexOutOfBoundsException and NullPointerException. */
 	public static void printShapes(Shape[] shapes) {
 		try {
 			for(int i=0;i<=shapes.length;i++) {
@@ -125,6 +147,37 @@ public class Main {
 		}catch(NullPointerException e) {
 			System.out.println("END");
 		}
+	}
+	
+	public static Shape[] deleteMinTrianglePerimeter(Shape[] arrOfShapes) {
+		Shape[] newArrOfShapes = new Shape[arrOfShapes.length];
+			double leastPerimeter = 0; 
+			int leastPerimeterIndex = 0;
+			try {
+				for(int i=0; i < arrOfShapes.length; i++) {
+					if(arrOfShapes[i].getName().equals("Triangle")) {
+						if(leastPerimeter > arrOfShapes[i].getPerimeter()) {
+							leastPerimeter = arrOfShapes[i].getPerimeter();	
+							leastPerimeterIndex = i;
+						}
+					}
+				}				
+			}catch(NullPointerException e) {
+				System.out.println(e.getMessage());
+			}
+			newArrOfShapes = deleteIndexAndPushArray(arrOfShapes, leastPerimeterIndex);
+		return newArrOfShapes;
+	}
+	public static Shape[] deleteIndexAndPushArray(Shape[] arrOfShapes, int leastPerimeterIndex) {
+		Shape[] newArrOfShapes = new Shape[arrOfShapes.length];
+		try {
+			for(int i = leastPerimeterIndex; i < arrOfShapes.length-1; i++) {
+				newArrOfShapes[i] = arrOfShapes[i+1];
+			}			
+		}catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println(e.getMessage());
+		}
+		return newArrOfShapes;
 	}
 }
 

@@ -11,7 +11,11 @@ public class Triangle extends Shape{
 		zSide=sides[2];
 	}
 	public String toString() {
-	    return "Shape: " + name + " SideX: " + xSide + " SideY: " + ySide + " SideZ: " + zSide;
+	    return "Shape: " + name + 
+	    		" SideX: " + xSide +
+	    		" SideY: " + ySide +
+	    		" SideZ: " + zSide +
+	    		" Perimeter: " + getPerimeter();
 	  }
 
 	@Override

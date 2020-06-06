@@ -11,7 +11,10 @@ public class Rectangle extends Shape{
 	}
 
 	public String toString() {
-	    return "Shape: " + name + " width: " + width + " height: " + height;
+	    return "Shape: " + name +
+	    		" width: " + width + 
+	    		" height: " + height +
+	    		" Perimeter: " + getPerimeter();
 	  }
 
 	@Override

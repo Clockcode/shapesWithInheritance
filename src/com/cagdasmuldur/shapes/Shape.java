@@ -8,14 +8,19 @@ public abstract class Shape {
 	public Shape(String name, double[] sides) {
 		this.name = name;
 	}
-	
-	  public String toString() {
-	    return "Shape: " + name ;
-	  }
+	public String getName() {
+		return name;
+	}
+	public String toString() {
+	  return "Shape: " + name ;
+	}
 
 	  /** Abstract method getArea */
-	  public abstract double getArea();
+	public abstract double getArea();
 
 	  /** Abstract method getPerimeter */
-	  public abstract double getPerimeter();
+	public abstract double getPerimeter();
+	
+	
+	  
 }

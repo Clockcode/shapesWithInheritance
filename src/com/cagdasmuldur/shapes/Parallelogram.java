@@ -9,7 +9,10 @@ public class Parallelogram extends Shape{
 		ySide=sides[1];
 	}
 	public String toString() {
-	    return "Shape: " + name + " SideX: " + xSide + " SideY: " + ySide;
+	    return "Shape: " + name +
+	    		" SideX: " + xSide +
+	    		" SideY: " + ySide +
+	    		" Perimeter: " + getPerimeter();
 	  }
 
 	@Override

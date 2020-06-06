@@ -9,7 +9,9 @@ public class Circle extends Shape{
 		// TODO Auto-generated constructor stub
 	}
 	public String toString() {
-	    return "Shape: " + name + " radius: " + radius;
+	    return "Shape: " + name +
+	    		" radius: " + radius +
+	    		" Perimeter: " + getPerimeter();
 	  }
 	public double getRadius() {
 		return radius;
