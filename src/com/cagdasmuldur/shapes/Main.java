@@ -29,11 +29,12 @@ public class Main {
 		        String[] arrOfData = data.split(",");
 		        try {
 		        	shapes[i] = setShape(arrOfData);
+		        	i++;
 		        }catch(InvalidValueException|InvalidShapeException e) {
 		        	System.out.println(e.getMessage());
 		        	i--;
 		        }
-		        i++;
+		        
 		      }
 		      myReader.close();
 		}catch(FileNotFoundException e) {
@@ -138,41 +139,52 @@ public class Main {
 	/** Calls toString function for every Shape element inside the array 
 	 *  catches the ArrayIndexOutOfBoundsException and NullPointerException. */
 	public static void printShapes(Shape[] shapes) {
+		int i= 0;
 		try {
-			for(int i=0;i<=shapes.length;i++) {
+			for(i=0;i<=shapes.length;i++) {
 				System.out.println(shapes[i].toString());
 			}			
 		}catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
 		}catch(NullPointerException e) {
-			System.out.println("END");
+			System.out.println("Total Shapes: " + i);
 		}
 	}
 	
 	public static Shape[] deleteMinTrianglePerimeter(Shape[] arrOfShapes) {
-		Shape[] newArrOfShapes = new Shape[arrOfShapes.length];
-			double leastPerimeter = 0; 
+			double leastPerimeter = 100; 
 			int leastPerimeterIndex = 0;
+			int i = 0;
 			try {
-				for(int i=0; i < arrOfShapes.length; i++) {
+				for(i = 0; i < arrOfShapes.length; i++) {
 					if(arrOfShapes[i].getName().equals("Triangle")) {
-						if(leastPerimeter > arrOfShapes[i].getPerimeter()) {
+						if(arrOfShapes[i].getPerimeter() < leastPerimeter) {
 							leastPerimeter = arrOfShapes[i].getPerimeter();	
 							leastPerimeterIndex = i;
 						}
+//						else if(arrOfShapes[i].getPerimeter() == leastPerimeter) {
+//							System.out.println("There is another min Perimeter");
+//							deleteMinTrianglePerimeter(arrOfShapes);
+//						}
 					}
 				}				
-			}catch(NullPointerException e) {
-				System.out.println(e.getMessage());
+			}catch(NullPointerException|ArrayIndexOutOfBoundsException e) {
+
 			}
-			newArrOfShapes = deleteIndexAndPushArray(arrOfShapes, leastPerimeterIndex);
-		return newArrOfShapes;
-	}
-	public static Shape[] deleteIndexAndPushArray(Shape[] arrOfShapes, int leastPerimeterIndex) {
-		Shape[] newArrOfShapes = new Shape[arrOfShapes.length];
+			return deleteIndexAndPushArray(arrOfShapes, leastPerimeterIndex, i);
+		
+	}	
+	//Works fine
+	public static Shape[] deleteIndexAndPushArray(Shape[] arrOfShapes, int leastPerimeterIndex, int lengthOfArr) {
+		Shape[] newArrOfShapes = new Shape[lengthOfArr];
+//		int i = 0;
 		try {
-			for(int i = leastPerimeterIndex; i < arrOfShapes.length-1; i++) {
-				newArrOfShapes[i] = arrOfShapes[i+1];
+			for(int i = 0; i < newArrOfShapes.length; i++) {
+				if(i < leastPerimeterIndex) {
+					newArrOfShapes[i] = arrOfShapes[i];					
+				}else {
+					newArrOfShapes[i] = arrOfShapes[i+1];					
+				}
 			}			
 		}catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
