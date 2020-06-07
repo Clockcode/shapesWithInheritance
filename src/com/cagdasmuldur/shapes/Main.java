@@ -47,7 +47,13 @@ public class Main {
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("~~~Array Of Shapes Without The Least Perimetered Triangle~~~");
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		printShapes(deleteMinTrianglePerimeter(shapes));
+		printShapes(deleteMinShapePerimeter(shapes, "Triangle"));
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~Total Perimeters~~~~~~~~~~~~~~~~~~~~~~");		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		displayTotalPerimterOfShape(shapes, "Parallelogram");
+		displayTotalPerimterOfShape(shapes, "Triangle");
+		displayTotalPerimterOfShape(shapes, "Circle");
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 	
@@ -150,22 +156,24 @@ public class Main {
 			System.out.println("Total Shapes: " + i);
 		}
 	}
-	
-	public static Shape[] deleteMinTrianglePerimeter(Shape[] arrOfShapes) {
+	/** Gets array of shapes and a shape name to delete desired shape's
+	 * member which has the smallest perimeter. Iterated through array
+	 * and compares each perimeter which belongs to desired shape.
+	 * If it is less than leastPerimeter's value that becomes the new
+	 * least and its' index gets assigned to leatPerimeterIndex
+	 * Finally deleteIndexAndPushArray method gets called and return new array
+	 * without smallest perimetered shape.*/
+	public static Shape[] deleteMinShapePerimeter(Shape[] arrOfShapes, String shapeName) {
 			double leastPerimeter = 100; 
 			int leastPerimeterIndex = 0;
 			int i = 0;
 			try {
 				for(i = 0; i < arrOfShapes.length; i++) {
-					if(arrOfShapes[i].getName().equals("Triangle")) {
+					if(arrOfShapes[i].getName().equals(shapeName)) {
 						if(arrOfShapes[i].getPerimeter() < leastPerimeter) {
 							leastPerimeter = arrOfShapes[i].getPerimeter();	
 							leastPerimeterIndex = i;
 						}
-//						else if(arrOfShapes[i].getPerimeter() == leastPerimeter) {
-//							System.out.println("There is another min Perimeter");
-//							deleteMinTrianglePerimeter(arrOfShapes);
-//						}
 					}
 				}				
 			}catch(NullPointerException|ArrayIndexOutOfBoundsException e) {
@@ -174,10 +182,12 @@ public class Main {
 			return deleteIndexAndPushArray(arrOfShapes, leastPerimeterIndex, i);
 		
 	}	
-	//Works fine
+	/** Gets shape array, index of number that will be deleted and a length.
+	 * Iterates over the array until iterator is not less than leastPerimeterIndex
+	 * from that point it starts to overwrite each element with the next one*/
 	public static Shape[] deleteIndexAndPushArray(Shape[] arrOfShapes, int leastPerimeterIndex, int lengthOfArr) {
 		Shape[] newArrOfShapes = new Shape[lengthOfArr];
-//		int i = 0;
+
 		try {
 			for(int i = 0; i < newArrOfShapes.length; i++) {
 				if(i < leastPerimeterIndex) {
@@ -190,6 +200,20 @@ public class Main {
 			System.out.println(e.getMessage());
 		}
 		return newArrOfShapes;
+	}
+	/** Gets an array of shapes and the name of shape.
+	 * Iterates over the array until the index value is null.
+	 * Prints the value with the shape name*/
+	public static void displayTotalPerimterOfShape(Shape[] arrOfShapes, String shapeName) {
+		double totalPerimeters = 0;
+		try {
+			for(Shape shape : arrOfShapes) {
+				if(shape.getName().equalsIgnoreCase(shapeName)){
+					totalPerimeters += shape.getPerimeter();
+				}				
+			}
+		}catch(NullPointerException e) {};
+		System.out.println("Total Perimeter of " + shapeName + ": " + totalPerimeters);
 	}
 }
 
