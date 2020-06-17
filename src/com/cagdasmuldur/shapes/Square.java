@@ -1,31 +1,32 @@
 package com.cagdasmuldur.shapes;
 
-public class Square extends Shape{
-	private double side;
+public class Square extends Rectangle{
+	
+	//CONSTRUCTOR
 	public Square(String name, double[] sides) {
 		super(name, sides);
-		this.side = sides[0];
-		// TODO Auto-generated constructor stub
+		width = sides[0];
+		height = sides[0];
 	}
+	//RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
 	public String toString() {
-	    return "Shape: " + name +
-	    		" Side: " + side + 
+	    return "Shape: " + this.getClass().getSimpleName() +
+	    		" Side: " + width + 
 	    		" Perimeter: " + getPerimeter();
 	  }
-	public double getSide() {
-		return side;
+	  public void setWidth(double width) {
+		if (width <= 0) {
+			throw new IllegalArgumentException("Input width must be positive value: " + width);
+		}
+		this.width = width;
+		this.height = width;
 	}
-	public void setSide(double side) {
-		this.side = side;
-	}
-	@Override
-	public double getArea() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	@Override
-	public double getPerimeter() {
-		return side * 4;
+	public void setHeight(double height) {
+		if (height <= 0) {
+			throw new IllegalArgumentException("Input height must be positive value: " + width);
+		}
+		this.width = height;
+		this.height = height;
 	}
 
 }
