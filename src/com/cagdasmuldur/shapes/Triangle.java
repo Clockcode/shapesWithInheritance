@@ -6,13 +6,21 @@ public class Triangle implements Shape {
 	private double zSide;
 
 	// CONSTRUCTOR
-	public Triangle(String name, double[] sides) {
-		if (sides[0] <= 0 && sides[1] <= 0 && sides[2] <= 0) {
-			throw new IllegalArgumentException("Input side(s) must be positive value: " + sides[0] + sides[1] + sides[2]);
+	public Triangle(String name, double[] sides) throws InvalidValueException {
+		if (sides[0] > 0 && sides[1] > 0 && sides[2] > 0) {
+			// if (Math.pow(Math.pow(sides[0], 2) + Math.pow(sides[1], 2) + Math.pow(sides[2], 2), 2) >= 2
+			// 		* (Math.pow(sides[0], 4) + Math.pow(sides[1], 4) + Math.pow(sides[2], 4)))
+			if(sides[0] + sides[1] > sides[2] && sides[2] + sides[1] > sides[0] && sides[0] + sides[2] > sides[1]){
+				xSide = sides[0];
+				ySide = sides[1];
+				zSide = sides[2];
+			} else {
+				throw new InvalidValueException("All of the Triangle sides must satisfy side rule!");
+			}
+		} else {
+			throw new IllegalArgumentException(
+					"Input side(s) must be positive value: " + sides[0] + ", " + sides[1] + ", " + sides[2]);
 		}
-		xSide = sides[0];
-		ySide = sides[1];
-		zSide = sides[2];
 	}
 
 	// RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
@@ -65,6 +73,5 @@ public class Triangle implements Shape {
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
-
 
 }

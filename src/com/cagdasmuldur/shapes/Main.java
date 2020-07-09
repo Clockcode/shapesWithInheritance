@@ -21,7 +21,7 @@ public class Main {
 		// How to get rid of this
 		int arrSize = lineCounter(fileName);
 		Shape[] shapes = new Shape[arrSize];
-		int i = 0;
+		int i = -1;
 		try {
 			File myObj = new File(fileName);
 			Scanner myReader = new Scanner(myObj);
@@ -29,8 +29,8 @@ public class Main {
 				String data = myReader.nextLine();
 				String[] arrOfData = data.split(",");
 				try {
-					shapes[i] = setShape(arrOfData);
 					i++;
+					shapes[i] = setShape(arrOfData);
 				} catch (InvalidValueException | InvalidShapeException | IllegalArgumentException e) {
 					System.out.println(e.getMessage());
 					i--;
@@ -126,34 +126,34 @@ public class Main {
 		String[] arrOfSides = Arrays.copyOfRange(arrOfData, 1, arrOfData.length);
 		switch (arrOfData[0]) {
 			case "Circle":
-				// if (checkValues(arrOfSides, 1)) {
+				if (arrOfSides.length == 1) {
 					sides = doubleArrayParser(arrOfSides, 1);
 					shape = new Circle(arrOfData[0], sides);
-				// }
+				}
 				break;
 			case "Rectangle":
-				// if (checkValues(arrOfSides, 2)) {
+				if (arrOfSides.length == 2) {
 					sides = doubleArrayParser(arrOfSides, 2);
 					shape = new Rectangle(arrOfData[0], sides);
-				// }
+				}
 				break;
 			case "Square":
-				// if (checkValues(arrOfSides, 1)) {
+				if (arrOfSides.length == 1) {
 					sides = doubleArrayParser(arrOfSides, 1);
 					shape = new Square(arrOfData[0], sides);
-				// }
+				}
 				break;
 			case "Triangle":
-				// if (checkValues(arrOfSides, 3)) {
+				if (arrOfSides.length == 3) {
 					sides = doubleArrayParser(arrOfSides, 3);
 					shape = new Triangle(arrOfData[0], sides);
-				// }
+				}
 				break;
 			case "Parallelogram":
-				// if (checkValues(arrOfSides, 2)) {
+				if (arrOfSides.length == 2) {
 					sides = doubleArrayParser(arrOfSides, 2);
 					shape = new Parallelogram(arrOfData[0], sides);
-				// }
+				}
 				break;
 			default:
 				throw new InvalidValueException("Wrong Shape name!!");
