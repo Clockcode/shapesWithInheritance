@@ -1,36 +1,45 @@
 package com.cagdasmuldur.shapes;
 
-public class Circle implements Shape{
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import com.cagdasmuldur.shapeAreaCalculator;
+
+public class Circle implements Shape {
 	private double radius;
-	
-	//CONSTRUCTOR
-	public Circle(String name, double[] radius) {
+	// shapeAreaCalculator type object got assigned a lambda expression as its' method definition.
+	private final shapeAreaCalculator getArea = () -> {
+		return Math.pow(radius, 2) * Math.PI;
+	};
+
+	// CONSTRUCTOR
+	public Circle(final String name, final double[] radius) {
 		if (radius[0] <= 0) {
 			throw new IllegalArgumentException("Input radius must be positive value: " + radius);
 		}
 		this.radius = radius[0];
 
 	}
-	
-	//RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
+
+	// RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
 	public String toString() {
-	    return "Shape: " + this.getClass().getSimpleName() +
-	    		" radius: " + radius +
-	    		" Perimeter: " + getPerimeter();
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		return this.getClass().getSimpleName() + " { radius: " + radius + " } Perimeter: " + df.format(getPerimeter())
+				+ " Area:" + df.format(getArea.calculate());
 	}
-	
-	//GETTERS AND SETTERS
+
+	// GETTERS AND SETTERS
 	public double getRadius() {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	public void setRadius(final double radius) {
 		if (radius <= 0) {
 			throw new IllegalArgumentException("Input radius must be positive value: " + radius);
 		}
 		this.radius = radius;
 	}
-
 
 	@Override
 	public double getPerimeter() {

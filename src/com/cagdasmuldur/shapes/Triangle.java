@@ -1,5 +1,8 @@
 package com.cagdasmuldur.shapes;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 public class Triangle implements Shape {
 	private double xSide;
 	private double ySide;
@@ -8,8 +11,6 @@ public class Triangle implements Shape {
 	// CONSTRUCTOR
 	public Triangle(String name, double[] sides) throws InvalidValueException {
 		if (sides[0] > 0 && sides[1] > 0 && sides[2] > 0) {
-			// if (Math.pow(Math.pow(sides[0], 2) + Math.pow(sides[1], 2) + Math.pow(sides[2], 2), 2) >= 2
-			// 		* (Math.pow(sides[0], 4) + Math.pow(sides[1], 4) + Math.pow(sides[2], 4)))
 			if(sides[0] + sides[1] > sides[2] && sides[2] + sides[1] > sides[0] && sides[0] + sides[2] > sides[1]){
 				xSide = sides[0];
 				ySide = sides[1];
@@ -25,8 +26,10 @@ public class Triangle implements Shape {
 
 	// RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
 	public String toString() {
-		return "Shape: " + this.getClass().getSimpleName() + " SideX: " + xSide + " SideY: " + ySide + " SideZ: "
-				+ zSide + " Perimeter: " + getPerimeter();
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		return this.getClass().getSimpleName() + " { SideX: " + xSide + " SideY: " + ySide + " SideZ: "
+				+ zSide + " } Perimeter: " + df.format(getPerimeter());
 	}
 
 	// GETTERS AND SETTERS

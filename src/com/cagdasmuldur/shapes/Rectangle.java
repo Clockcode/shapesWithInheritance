@@ -1,9 +1,17 @@
 package com.cagdasmuldur.shapes;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import com.cagdasmuldur.shapeAreaCalculator;
+
 public class Rectangle implements Shape {
 	protected double width;
 	protected double height;
-
+	// shapeAreaCalculator type object got assigned a lambda expression as its' method definition.
+	protected shapeAreaCalculator getArea = () -> {
+		return this.width * this.height;
+	};
 	// CONSTRUCTOR
 	public Rectangle(String name, double[] sides) {
 		if (sides[0] <= 0) {
@@ -22,14 +30,14 @@ public class Rectangle implements Shape {
 
 	// RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
 	public String toString() {
-		return "Shape: " + this.getClass().getSimpleName() + " width: " + width + " height: " + height + " Perimeter: "
-				+ getPerimeter();
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+		return this.getClass().getSimpleName() + " { width: " + width + " height: " + height + " } Perimeter: "
+				+ df.format(getPerimeter()) + " | Area:" + df.format(getArea.calculate());
 	}
 
 	// GETTERS AND SETTERS
-	public double getArea() {
-		return 0;
-	}
+
 
 	public double getPerimeter() {
 		return (width + height) * 2;

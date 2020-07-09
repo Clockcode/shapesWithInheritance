@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File; // Import the File class
 import java.io.FileNotFoundException; // Import this class to handle errors
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 public class Main {
 	// Filename variable for safer and easier reading
@@ -42,6 +44,10 @@ public class Main {
 			System.out.println(e.getMessage());
 		}
 
+		// System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		// System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~Area Of Shape~~~~~~~~~~~~~~~~~~~~~~~");
+		// System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~Array Of Shapes~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -237,6 +243,8 @@ public class Main {
 	 * the index value is null. Prints the value with the shape name
 	 */
 	public static void displayTotalPerimterOfShape(Shape[] arrOfShapes, String shapeName) {
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
 		double totalPerimeters = 0;
 		try {
 			for (Shape shape : arrOfShapes) {
@@ -247,6 +255,6 @@ public class Main {
 		} catch (NullPointerException e) {
 		}
 		;
-		System.out.println("Total Perimeter of " + shapeName + ": " + totalPerimeters);
+		System.out.println("Total Perimeter of " + shapeName + ": " + df.format(totalPerimeters));
 	}
 }

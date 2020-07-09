@@ -1,6 +1,9 @@
 package com.cagdasmuldur.shapes;
 
-public class Square extends Rectangle{
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+public class Square extends Rectangle {
 	
 	//CONSTRUCTOR
 	public Square(String name, double[] sides) {
@@ -10,9 +13,11 @@ public class Square extends Rectangle{
 	}
 	//RETURNS A STRING OF EVERY FIELD AND ITS' VALUE
 	public String toString() {
-	    return "Shape: " + this.getClass().getSimpleName() +
-	    		" Side: " + width + 
-	    		" Perimeter: " + getPerimeter();
+		DecimalFormat df = new DecimalFormat("#.##");
+		df.setRoundingMode(RoundingMode.DOWN);
+	    return this.getClass().getSimpleName() +
+	    		" { Side: " + width + 
+	    		" } Perimeter: " + df.format(getPerimeter()) + " | Area:" + df.format(getArea.calculate());
 	  }
 	  public void setWidth(double width) {
 		if (width <= 0) {
